@@ -996,7 +996,7 @@ class SubtitleExtractor:
 if __name__ == '__main__':
     multiprocessing.set_start_method("spawn")
     # 提示用户输入视频路径
-    video_path = input(f"{config.interface_config['Main']['InputVideo']}").strip()
+    video_paths = input(f"{config.interface_config['Main']['InputVideo']}").split()
     # 提示用户输入字幕区域
     try:
         y_min, y_max, x_min, x_max = map(int, input(
@@ -1004,7 +1004,9 @@ if __name__ == '__main__':
         subtitle_area = (y_min, y_max, x_min, x_max)
     except ValueError as e:
         subtitle_area = None
-    # 新建字幕提取对象
-    se = SubtitleExtractor(video_path, subtitle_area)
-    # 开始提取字幕
-    se.run()
+
+    for video in video_paths:
+        # 新建字幕提取对象
+        se = SubtitleExtractor(video, subtitle_area)
+        # 开始提取字幕
+        se.run()
