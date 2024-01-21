@@ -1005,8 +1005,9 @@ if __name__ == '__main__':
     except ValueError as e:
         subtitle_area = None
 
-    for video in video_paths:
-        # 新建字幕提取对象
-        se = SubtitleExtractor(video, subtitle_area)
-        # 开始提取字幕
-        se.run()
+    def task():
+        while video_paths:
+            video_path = video_paths.pop()
+            self.se = SubtitleExtractor(video_path, subtitle_area)
+            self.se.run()
+    Thread(target=task, daemon=True).start()
